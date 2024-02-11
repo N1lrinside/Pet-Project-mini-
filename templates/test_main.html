@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рандом игра из вашей библиотеки Steam</title>
+<style>
+    body {
+        height: 100vh; /* 100% высоты экрана */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-image: url('https://image.winudf.com/v2/image/b3JnLmthbGVlbS5iNHdvcmxkLm5pY2VzdW5zZXRmcmVlaW1hZ2VzX3NjcmVlbnNob3RzXzRfNGUyOTQ1MWQ/screen-4.jpg?fakeurl=1&type=.jpg');
+        background-position: center; /* Располагаем фоновое изображение по центру */
+    }
+    .game_header_image_full {
+        margin-bottom: 20px; /* Отступ снизу */
+    }
+    .button-container {
+        display: flex;
+        gap: 20px;
+    }
+    .centered-button, .refresh-button, .change-background-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+    }
+    .centered-button {
+        background-color: #8b00ff;
+        color: white;
+        font-size: 30px;
+    }
+    .refresh-button {
+        background-color: #007bff;
+        color: white;
+        font-size: 20px;
+    }
+    .change-background-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: #ff8c00;
+        color: white;
+        font-size: 20px;
+    }
+</style>
+</head>
+<body>
+<img class="game_header_image_full" src="https://cdn.akamai.steamstatic.com/steam/apps/{{r}}/header.jpg?t=1706131787">
+<div id="appHubAppName_responsive" style="display: none;" class="apphub_AppName">Grand Theft Auto V</div>
+<div data-panel="{&quot;type&quot;:&quot;PanelGroup&quot;}" id="appHeaderGridContainer" class="app_header_grid_container" style="display:none">
+    <a id="game-link" href="https://store.steampowered.com/app/{{r}}">Ссылка на игру</a>
+</div>
+<div class="button-container">
+    <button id="play-button" class="centered-button">Нажми</button>
+    <button id="refresh-button" class="refresh-button">Обновить</button>
+</div>
+<a id="change-background-button" class="change-background-button" href="http://127.0.0.1:8000/change_background">Сменить фон</a>
+
+<script>
+    var playButton = document.getElementById('play-button');
+    var refreshButton = document.getElementById('refresh-button');
+    var gameLink = document.getElementById('game-link');
+
+    playButton.addEventListener('click', function() {
+        window.location.href = gameLink.href;
+    });
+
+    refreshButton.addEventListener('click', function() {
+        location.reload();
+    });
+    document.getElementById('noteForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+            // Получаем данные из полей формы
+            var noteText = document.getElementById('noteText').value;
+
+            // Отправляем POST запрос на сервер
+            fetch('/create_note', {
+                method: 'POST',
+                body: JSON.stringify({ text: noteText}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // После успешного ответа переходим на страницу результата
+                if (data.response === "ok") {
+                    document.location.href = "/result/" + data.note_id
+                }
+            })
+</script>
+
+</body>
+</html>

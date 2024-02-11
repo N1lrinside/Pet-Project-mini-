@@ -1,3 +1,3 @@
-import random
-list_id_games=[10,570,620,730]
-print(random.choice(list_id_games))
+from pydantic import BaseModel
+class Url_FromUser(BaseModel):
+    text: str

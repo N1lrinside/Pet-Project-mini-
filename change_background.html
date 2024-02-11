@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пример сайта с полем ввода и кнопкой</title>
+<style>
+    body {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #FFA500; /* Оранжевый цвет фона */
+    }
+    .input-container {
+        margin-bottom: 20px;
+    }
+    input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 300px;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #FFD700; /* Желтый цвет кнопки */
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div class="input-container">
+    <input type="text" id="input-field" placeholder="Введите информацию">
+</div>
+<button id="apply-button">Применить</button>
+
+<script>
+    const applyButton = document.getElementById('apply-button');
+    const inputField = document.getElementById('input-field');
+
+    applyButton.addEventListener('click', function() {
+        const inputValue = inputField.value;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://127.0.0.1:8000/url_background", true); // Замените "http://example.com/your-endpoint" на ваш URL
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("Сигнал успешно отправлен!");
+            }
+        };
+        xhr.send(JSON.stringify({url: inputValue}));
+    });
+</script>
+</body>
+</html>
