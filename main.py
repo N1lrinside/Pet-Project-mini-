@@ -10,15 +10,11 @@ app = FastAPI()
 templates = Jinja2Templates(directory='templates')
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    list_id_games = [10, 570, 620, 730, 242760]
+    list_id_games = [10, 570, 620, 730]
     r = random.choice(list_id_games)
     return templates.TemplateResponse("test_main.html", {"request": request, "r" : r})
-@app.post("/url_background")
-async def url_background(url: Url_FromUser):
-    return {'text':url,'response':'ok'}
 @app.get("/change_background", response_class=HTMLResponse)
-async def change_background(request: Request, text: str):
-    return templates.TemplateResponse("hash_storage.html", {
-        "request": request,
-        "text": text
-    })
+async def change_background():
+    with open('templates/change_background.html', 'r', encoding='utf-8') as f:
+        h=f.read()
+    return HTMLResponse(content=h,status_code=200)

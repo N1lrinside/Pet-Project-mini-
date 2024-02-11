@@ -38,7 +38,7 @@
 </head>
 <body>
 <div class="input-container">
-    <input type="text" id="input-field" placeholder="Введите информацию">
+    <input type="text" id="input-field" placeholder="Введите URL фона">
 </div>
 <button id="apply-button">Применить</button>
 
@@ -47,17 +47,26 @@
     const inputField = document.getElementById('input-field');
 
     applyButton.addEventListener('click', function() {
-        const inputValue = inputField.value;
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://127.0.0.1:8000/url_background", true); // Замените "http://example.com/your-endpoint" на ваш URL
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                alert("Сигнал успешно отправлен!");
+    const inputValue = inputField.value;
+    const data = {url_background: inputValue}; // Создаем объект с правильной структурой данных
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/url_background", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log("Сервер вернул успешный ответ:", xhr.responseText);
+                alert("Фон успешно изменен!");
+            } else {
+                console.error("Ошибка сервера:", xhr.status);
+                alert("Произошла ошибка. Пожалуйста, попробуйте еще раз.");
             }
-        };
-        xhr.send(JSON.stringify({url: inputValue}));
-    });
+        }
+    };
+    xhr.send(JSON.stringify(data)); // Отправляем JSON-объект
+});
+
 </script>
+
 </body>
 </html>

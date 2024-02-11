@@ -73,26 +73,6 @@
     refreshButton.addEventListener('click', function() {
         location.reload();
     });
-    document.getElementById('noteForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
-            // Получаем данные из полей формы
-            var noteText = document.getElementById('noteText').value;
-
-            // Отправляем POST запрос на сервер
-            fetch('/create_note', {
-                method: 'POST',
-                body: JSON.stringify({ text: noteText}),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // После успешного ответа переходим на страницу результата
-                if (data.response === "ok") {
-                    document.location.href = "/result/" + data.note_id
-                }
-            })
 </script>
 
 </body>
